@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: 'car-service'
+  datasource:
+    url: 'jdbc:h2:mem:car_db'
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true
+    defer-datasource-initialization: true

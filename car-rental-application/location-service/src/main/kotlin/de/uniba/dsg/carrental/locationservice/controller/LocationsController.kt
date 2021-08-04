@@ -23,14 +23,14 @@ class LocationsController(private val locationService: LocationService) {
         val locations = locationService.getAllLocations()
 
         locations.forEach {
-            val selfLink = linkTo(
+            it.add(linkTo(
                 methodOn(LocationsController::class.java).getLocationV1(it.code)
-            ).withSelfRel()
-
-            it.add(selfLink)
+            ).withSelfRel())
         }
 
-        val link: Link = linkTo(methodOn(LocationsController::class.java).getLocationsV1()).withSelfRel()
+        val link: Link = linkTo(
+            methodOn(LocationsController::class.java).getLocationsV1()
+        ).withSelfRel()
 
         return ResponseEntity(CollectionModel.of(locations, link), HttpStatus.OK)
     }
@@ -45,7 +45,9 @@ class LocationsController(private val locationService: LocationService) {
             ).withSelfRel())
         }
 
-        val link: Link = linkTo(methodOn(LocationsController::class.java).getLocationsV2()).withSelfRel()
+        val link: Link = linkTo(
+            methodOn(LocationsController::class.java).getLocationsV2()
+        ).withSelfRel()
 
         return ResponseEntity(CollectionModel.of(locations, link), HttpStatus.OK)
     }
