@@ -28,6 +28,7 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-config")
 	implementation("org.springframework.boot:spring-boot-starter-amqp")
 	/*implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")*/
+	implementation( "com.google.code.gson:gson")
 	runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

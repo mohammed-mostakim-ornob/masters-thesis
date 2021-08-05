@@ -1,6 +1,8 @@
 package de.uniba.dsg.carrental.carservice.bean
 
+import com.google.gson.Gson
 import de.uniba.dsg.carrental.carservice.exception.EntityNotFoundException
+import de.uniba.dsg.carrental.carservice.model.dto.CarRequest
 import de.uniba.dsg.carrental.carservice.model.dto.CarResponse
 import de.uniba.dsg.carrental.carservice.service.CarService
 import org.springframework.amqp.core.Queue
@@ -10,7 +12,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 
 @Component
-class MessageServiceComponent(private val carService: CarService) {
+class MessageServiceComponent(private val carService: CarService, private val gson: Gson) {
 
     @Value("\${message-service.car_rent_price_queue}")
     var queueName: String = String()
@@ -21,13 +23,17 @@ class MessageServiceComponent(private val carService: CarService) {
     }
 
     @RabbitListener(queues = ["\${message-service.car_rent_price_queue}"])
-    fun listen(carId: Long): CarResponse {
+    fun listen(request: String): String {
         return try {
-            val car = carService.getCar(carId)
+            val carRequest = gson.fromJson(request, CarRequest::class.java)
 
-            CarResponse(car.id, car.manufacturer.name, car.model, car.rentPerKilo, true, null)
+            val car = carService.getCar(carRequest.carId)
+
+            carService.getCarInLocation(carRequest.fromLocation, carRequest.carId)
+
+            gson.toJson(CarResponse(car.id, car.manufacturer.name, car.model, car.rentPerKilo, true, null))
         } catch (ex: EntityNotFoundException) {
-            CarResponse(null, null, null, null, false, ex.message)
+            gson.toJson(CarResponse(null, null, null, 0.0, false, ex.message))
         }
     }
 }

@@ -1,4 +1,4 @@
-package de.uniba.dsg.carrental.carservice.model.dto
+package de.uniba.dsg.carrental.rentservice.model.dto
 
 data class CarResponse(
     val id: Long?,

@@ -1,4 +1,4 @@
-package de.uniba.dsg.carrental.locationservice.model.dto
+package de.uniba.dsg.carrental.rentservice.model.dto
 
 data class DistanceResponse(
     val from: String?,

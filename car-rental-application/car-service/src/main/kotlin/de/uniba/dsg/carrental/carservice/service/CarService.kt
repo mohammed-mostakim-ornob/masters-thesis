@@ -2,6 +2,7 @@ package de.uniba.dsg.carrental.carservice.service
 
 import de.uniba.dsg.carrental.carservice.exception.EntityNotFoundException
 import de.uniba.dsg.carrental.carservice.model.data.Car
+import de.uniba.dsg.carrental.carservice.model.data.CarLocation
 import de.uniba.dsg.carrental.carservice.repository.CarLocationRepository
 import de.uniba.dsg.carrental.carservice.repository.CarRepository
 import org.springframework.stereotype.Service
@@ -10,7 +11,7 @@ import kotlin.jvm.Throws
 @Service
 class CarService(private val carRepository: CarRepository, private val carLocationRepository: CarLocationRepository) {
     fun getAllCars(): List<Car> {
-        return carRepository.findAll();
+        return carRepository.findAll()
     }
 
     @Throws(EntityNotFoundException::class)
@@ -32,5 +33,10 @@ class CarService(private val carRepository: CarRepository, private val carLocati
             .map {
                 it.car
             }
+    }
+
+    @Throws(EntityNotFoundException::class)
+    fun getCarInLocation(locationCode: String, carId: Long): CarLocation {
+        return carLocationRepository.getByLocationCodeAndCarId(locationCode, carId) ?: throw EntityNotFoundException("No Car with ID: $carId found in Location: $locationCode")
     }
 }

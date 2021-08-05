@@ -1,5 +1,6 @@
 package de.uniba.dsg.carrental.locationservice.bean
 
+import com.google.gson.Gson
 import de.uniba.dsg.carrental.locationservice.exception.EntityNotFoundException
 import de.uniba.dsg.carrental.locationservice.model.dto.DistanceRequest
 import de.uniba.dsg.carrental.locationservice.model.dto.DistanceResponse
@@ -11,7 +12,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 
 @Component
-class MessageServiceComponent(private val distanceService: DistanceService) {
+class MessageServiceComponent(private val distanceService: DistanceService, private val gson: Gson) {
 
     @Value("\${message-service.distanceQueue}")
     var queueName: String = String()
@@ -22,13 +23,15 @@ class MessageServiceComponent(private val distanceService: DistanceService) {
     }
 
     @RabbitListener(queues = ["\${message-service.distanceQueue}"])
-    fun listen(distanceRequest: DistanceRequest): DistanceResponse {
+    fun listen(request: String): String {
         return try {
+            val distanceRequest = gson.fromJson(request, DistanceRequest::class.java)
+
             val distance = distanceService.getLocationByFromAndToCode(distanceRequest.from, distanceRequest.to)
 
-            DistanceResponse(distance.from.code, distance.to.code, distance.distance, true, null)
+            gson.toJson(DistanceResponse(distance.from.code, distance.to.code, distance.distance, true, null))
         } catch (ex: EntityNotFoundException) {
-            DistanceResponse(distanceRequest.from, distanceRequest.from, Double.NaN, false, ex.message)
+            gson.toJson(DistanceResponse(null, null, 0.0, false, ex.message))
         }
     }
 }
