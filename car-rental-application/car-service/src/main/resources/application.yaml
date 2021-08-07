@@ -1,11 +1,23 @@
 spring:
   application:
     name: 'car-service'
-  datasource:
-    url: 'jdbc:h2:mem:car_db'
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: 'config-service'
+    import-check:
+      enabled: false
   h2:
     console:
       enabled: true
   jpa:
     show-sql: true
     defer-datasource-initialization: true
+server:
+  port: ${server_port}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${eureka_default_zone}
+    fetch-registry: true

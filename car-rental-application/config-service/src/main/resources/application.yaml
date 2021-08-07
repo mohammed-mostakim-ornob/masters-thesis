@@ -1,3 +1,16 @@
 spring:
   application:
     name: 'config-service'
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${config_git_uri}
+        default-label: ${config_git_main_branch}
+server:
+  port: ${server_port}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${eureka_default_zone}
+    fetch-registry: true
