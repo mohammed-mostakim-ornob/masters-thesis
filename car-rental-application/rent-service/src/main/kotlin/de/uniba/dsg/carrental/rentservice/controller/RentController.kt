@@ -13,7 +13,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn
 
 @RestController
-@RequestMapping("rent")
+@RequestMapping("/rent")
 class RentController(private val rentService: RentService) {
 
     @GetMapping(produces = ["application/v1+json"])

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("manufacturers")
+@RequestMapping("/manufacturers")
 class ManufacturersController(private val manufactureService: ManufactureService, private val carService: CarService) {
 
     @GetMapping(produces = ["application/v1+json"])
@@ -53,7 +53,7 @@ class ManufacturersController(private val manufactureService: ManufactureService
         return ResponseEntity(CollectionModel.of(manufacturers, link), HttpStatus.OK)
     }
 
-    @GetMapping("{name}/cars", produces = ["application/v1+json"])
+    @GetMapping("/{name}/cars", produces = ["application/v1+json"])
     fun getManufacturerCarsV1(@PathVariable name: String): ResponseEntity<Any> {
         return try {
             val manufacturer = manufactureService.getManufacturer(name)
@@ -80,7 +80,7 @@ class ManufacturersController(private val manufactureService: ManufactureService
         }
     }
 
-    @GetMapping("{name}/cars", produces = ["application/v2+json"])
+    @GetMapping("/{name}/cars", produces = ["application/v2+json"])
     fun getManufacturerCarsV2(@PathVariable name: String): ResponseEntity<Any> {
         return try {
             val manufacturer = manufactureService.getManufacturer(name)

@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: 'api-gateway'
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: 'config-service'
+    import-check:
+      enabled: false
+server:
+  port: ${server_port}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${eureka_default_zone}
+    fetch-registry: true

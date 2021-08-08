@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("locations")
+@RequestMapping("/locations")
 class LocationsController(private val locationService: LocationService) {
 
     @GetMapping(produces = ["application/v1+json"])
@@ -52,7 +52,7 @@ class LocationsController(private val locationService: LocationService) {
         return ResponseEntity(CollectionModel.of(locations, link), HttpStatus.OK)
     }
 
-    @GetMapping("{code}", produces = ["application/v1+json"])
+    @GetMapping("/{code}", produces = ["application/v1+json"])
     fun getLocationV1(@PathVariable code: String): ResponseEntity<Any> {
         return try {
             val location = locationService.getLocationByCode(code)
@@ -67,7 +67,7 @@ class LocationsController(private val locationService: LocationService) {
         }
     }
 
-    @GetMapping("{code}", produces = ["application/v2+json"])
+    @GetMapping("/{code}", produces = ["application/v2+json"])
     fun getLocationV2(@PathVariable code: String): ResponseEntity<Any> {
         return try {
             val location = locationService.getLocationByCode(code)

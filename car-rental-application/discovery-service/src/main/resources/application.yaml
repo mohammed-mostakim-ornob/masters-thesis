@@ -1,9 +1,9 @@
 spring:
   application:
-    name: 'discovery-server'
+    name: 'discovery-service'
 eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
 server:
-  port: 8761
+  port: ${server_port}

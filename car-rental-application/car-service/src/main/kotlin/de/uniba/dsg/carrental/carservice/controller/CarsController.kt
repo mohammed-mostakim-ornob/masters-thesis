@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("cars")
+@RequestMapping("/cars")
 class CarsController(private val carService: CarService) {
 
     @GetMapping(produces = ["application/v1+json"])
@@ -57,7 +57,7 @@ class CarsController(private val carService: CarService) {
         return ResponseEntity(CollectionModel.of(cars, link), HttpStatus.OK)
     }
 
-    @GetMapping("{id}", produces = ["application/v1+json"])
+    @GetMapping("/{id}", produces = ["application/v1+json"])
     fun getCarV1(@PathVariable id: Long): ResponseEntity<Any> {
         return try {
             val car = carService.getCar(id)
@@ -76,7 +76,7 @@ class CarsController(private val carService: CarService) {
         }
     }
 
-    @GetMapping("{id}", produces = ["application/v2+json"])
+    @GetMapping("/{id}", produces = ["application/v2+json"])
     fun getCarV2(@PathVariable id: Long): ResponseEntity<Any> {
         return try {
             val car = carService.getCar(id)
