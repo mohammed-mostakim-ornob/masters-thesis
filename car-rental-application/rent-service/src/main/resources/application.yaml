@@ -19,3 +19,8 @@ spring:
         service-id: ${config_service_id}
     import-check:
       enabled: false
+  rabbitmq:
+    host: ${rabbitmq_host}
+    port: ${rabbitmq_port}
+    username: ${rabbitmq_username}
+    password: ${rabbitmq_password}
