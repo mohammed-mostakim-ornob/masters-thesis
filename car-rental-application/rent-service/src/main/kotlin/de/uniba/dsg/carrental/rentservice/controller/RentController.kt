@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn
+import java.util.ArrayList
 
 @RestController
 @RequestMapping("/rent")
@@ -19,6 +20,8 @@ class RentController(private val rentService: RentService) {
     @GetMapping(produces = ["application/v1+json"])
     fun calculateRentV1(@RequestParam from: String, @RequestParam to: String, @RequestParam carId: Long): ResponseEntity<Any> {
         return try {
+            validateRentRequestQueryParams(from, to, carId)
+
             val rent = rentService.calculateRent(from, to, carId)
 
             val rentResponse = RentResponse(rent).add(linkTo(
@@ -34,6 +37,8 @@ class RentController(private val rentService: RentService) {
     @GetMapping(produces = ["application/v2+json"])
     fun calculateRentV2(@RequestParam from: String,@RequestParam to: String,@RequestParam carId: Long): ResponseEntity<Any> {
         return try {
+            validateRentRequestQueryParams(from, to, carId)
+
             val rent = rentService.calculateRent(from, to, carId)
 
             val rentResponse = RentResponse(rent).add(linkTo(
@@ -44,5 +49,21 @@ class RentController(private val rentService: RentService) {
         } catch (ex: BadRequestException) {
             ResponseEntity(ex.message, HttpStatus.BAD_REQUEST)
         }
+    }
+
+    private fun validateRentRequestQueryParams(from: String, to: String, carId: Long) {
+        val errors: ArrayList<String> = ArrayList()
+
+        if (from.isEmpty())
+            errors.add("Invalid From location")
+
+        if (to.isEmpty())
+            errors.add("Invalid location")
+
+        if (carId <= 0)
+            errors.add("Invalid Car ID")
+
+        if (errors.isNotEmpty())
+            throw BadRequestException(errors.joinToString(", "))
     }
 }
