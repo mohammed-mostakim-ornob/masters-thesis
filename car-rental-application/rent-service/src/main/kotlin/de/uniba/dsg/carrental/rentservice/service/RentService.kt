@@ -22,10 +22,8 @@ class RentService(private val rabbitTemplate: RabbitTemplate, private val gson: 
 
     @Throws(BadRequestException::class)
     fun calculateRent(from: String, to: String, carId: Long): Double {
-        val a = rabbitTemplate.convertSendAndReceive(carRentPriceQueueName, gson.toJson(CarRequest(carId, from))) as String
-
         val carResponse = gson.fromJson(
-            a,
+            rabbitTemplate.convertSendAndReceive(carRentPriceQueueName, gson.toJson(CarRequest(carId, from))) as String,
             CarResponse::class.java
         )
 

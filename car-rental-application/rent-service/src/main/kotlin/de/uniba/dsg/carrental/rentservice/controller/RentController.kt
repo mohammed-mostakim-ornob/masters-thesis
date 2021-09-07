@@ -17,7 +17,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn
 class RentController(private val rentService: RentService) {
 
     @GetMapping(produces = ["application/v1+json"])
-    fun calculateRentV1(@RequestParam from: String,@RequestParam to: String,@RequestParam carId: Long): ResponseEntity<Any> {
+    fun calculateRentV1(@RequestParam from: String, @RequestParam to: String, @RequestParam carId: Long): ResponseEntity<Any> {
         return try {
             val rent = rentService.calculateRent(from, to, carId)
 

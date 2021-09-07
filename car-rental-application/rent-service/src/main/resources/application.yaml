@@ -1,17 +1,21 @@
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: ${eureka_default_zone}
+server:
+  port: ${server_port}
 spring:
   application:
-    name: 'rent-service'
+    name: ${application_name}
+  jpa:
+    show-sql: true
+    defer-datasource-initialization: true
   cloud:
     config:
       discovery:
         enabled: true
-        service-id: 'config-service'
+        service-id: ${config_service_id}
     import-check:
       enabled: false
-server:
-  port: ${server_port}
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${eureka_default_zone}
-    fetch-registry: true

@@ -1,9 +1,9 @@
-spring:
-  application:
-    name: 'discovery-service'
 eureka:
   client:
-    register-with-eureka: false
     fetch-registry: false
+    register-with-eureka: false
+spring:
+  application:
+    name: ${application_name}
 server:
   port: ${server_port}
