@@ -9,7 +9,10 @@ From the business perspective, this is a simple application that serves car rent
 - Discovery Service
   - Acts as the registry service. All the other services register themselves with this service. The registered services are discoverable by the other services.
 - Config Service
-  - Holds the configuration for other services other than Discovery Service (discovery-first design)
+  - Serves the configuration for other services other than Discovery Service (discovery-first design). Configurations need to be stored in a git repository as Springboot property files. For this application configurations are stored in the following public git repository.
+  ```
+  https://github.com/mohammed-mostakim-ornob/car_rental_config
+  ```
 - API Gateway
   - Works as the entrypoint for the exposed REST APIs. Delegates the incoming requests to the corresponding services.
 - Car Service
