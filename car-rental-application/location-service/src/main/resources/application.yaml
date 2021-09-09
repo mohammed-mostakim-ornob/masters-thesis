@@ -1,0 +1,26 @@
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: ${eureka_default_zone}
+server:
+  port: ${server_port}
+spring:
+  application:
+    name: ${application_name}
+  jpa:
+    show-sql: true
+    defer-datasource-initialization: true
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: ${config_service_id}
+    import-check:
+      enabled: false
+  rabbitmq:
+    host: ${rabbitmq_host}
+    port: ${rabbitmq_port}
+    username: ${rabbitmq_username}
+    password: ${rabbitmq_password}

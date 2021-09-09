@@ -1,0 +1,18 @@
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: ${eureka_default_zone}
+server:
+  port: ${server_port}
+spring:
+  application:
+    name: ${application_name}
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: ${config_service_id}
+    import-check:
+      enabled: false
